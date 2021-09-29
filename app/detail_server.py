@@ -31,7 +31,7 @@ class DetailProcessor(object):
 
 		print("[Startup]: Detail Server is online")
 
-	def exit_gracefully(self):
+	def exit_gracefully(self, signum, frame):
 		print("[Startup]: Detail Server is exiting")
 		self.socket.close()
 		self.isServiceAvailable = False
