@@ -54,7 +54,6 @@ class DetailProcessor(object):
 			except (KeyboardInterrupt, SystemExit): return
 			except Exception:
 				print(format_exc())
-				print(request)
 				if environ["PRODUCTION_MODE"]: self.logging.report_exception()
 			finally:
 				try: self.socket.send_multipart([origin, delimeter] + response)
@@ -62,7 +61,7 @@ class DetailProcessor(object):
 				request = None
 
 	def request_detail(self, request, clientId):
-		payload, tradeMessage, updatedTradeMessage = {}, "", ""
+		payload, tradeMessage, updatedQuoteMessage = {}, "", ""
 
 		for platform in request["platforms"]:
 			currentRequest = request.get(platform)
@@ -77,9 +76,9 @@ class DetailProcessor(object):
 					database.document("dataserver/statistics/{}/{}".format(currentRequest.get("parserBias"), int(time() // 3600 * 3600))).set({
 						currentRequest["ticker"].get("base"): ArrayUnion([str(request.get("authorId"))]),
 					}, merge=True)
-				return [dumps(payload), updatedTradeMessage.encode()]
-			elif updatedTradeMessage != "":
-				tradeMessage = updatedTradeMessage
+				return [dumps(payload), updatedQuoteMessage.encode()]
+			elif updatedQuoteMessage != "":
+				tradeMessage = updatedQuoteMessage
 
 		return [dumps({}), tradeMessage.encode()]
 
