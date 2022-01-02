@@ -84,6 +84,5 @@ class DetailProcessor(object):
 
 if __name__ == "__main__":
 	environ["PRODUCTION_MODE"] = environ["PRODUCTION_MODE"] if "PRODUCTION_MODE" in environ and environ["PRODUCTION_MODE"] else ""
-	print("[Startup]: Detail Server is in startup, running in {} mode.".format("production" if environ["PRODUCTION_MODE"] else "development"))
 	detailServer = DetailProcessor()
 	detailServer.run()
