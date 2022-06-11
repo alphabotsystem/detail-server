@@ -23,7 +23,7 @@ class IEXC(AbstractProvider):
 		except: stockLogoThumbnail = None
 
 		payload = {
-			"name": companyData["symbol"] if companyData["companyName"] is None else "{} ({})".format(companyData["companyName"], companyData["symbol"]),
+			"name": companyData["symbol"] if companyData["companyName"] is None else f"{companyData['companyName']} ({companyData['symbol']})",
 			"info": {
 				"employees": companyData["employees"]
 			},
@@ -47,6 +47,6 @@ class IEXC(AbstractProvider):
 		if companyData["industry"] is not None and companyData["industry"] != "": payload["industry"] = companyData["industry"]
 		if "marketCap" in rawData: payload["marketcap"] = rawData["marketCap"]
 		if companyData["website"] is not None and companyData["website"] != "": payload["url"] = companyData["website"] if companyData["website"].startswith("http") else "https://" + companyData["website"]
-		if companyData["country"] is not None: payload["info"]["location"] = "{}{}, {}, {}, {}".format(companyData["address"], "" if companyData["address2"] is None else ", " + companyData["address2"], companyData["city"], companyData["state"], companyData["country"])
+		if companyData["country"] is not None: payload["info"]["location"] = f"{companyData['address']}{'' if companyData['address2'] is None else ', ' + companyData['address2']}, {companyData['city']}, {companyData['state']}, {companyData['country']}"
 
 		return [payload, ""]

@@ -26,13 +26,13 @@ class CoinGecko(AbstractProvider):
 			nextLength = textLength[-1] + len(descriptionParagraphs[i])
 			if nextLength > 500 and textLength[-1] > 300 or nextLength > 1900: break
 			textLength.append(nextLength)
-		description = "\n".join(descriptionParagraphs[:len(textLength)])[:] + "\n[Read more on CoinGecko](https://www.coingecko.com/coins/{})".format(ticker.get("symbol"))
+		description = "\n".join(descriptionParagraphs[:len(textLength)])[:] + f"\n[Read more on CoinGecko](https://www.coingecko.com/coins/{ticker.get('symbol')})"
 
 		highs = [e[2] for e in historicData]
 		lows = [e[3] for e in historicData]
 
 		payload = {
-			"name": "{} ({})".format(assetData["name"], ticker.get("base")),
+			"name": f"{assetData['name']} ({ticker.get('base')})",
 			"description": description,
 			"rank": assetData["market_data"]["market_cap_rank"],
 			"supply": {},
