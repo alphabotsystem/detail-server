@@ -37,6 +37,7 @@ class DetailProcessor(object):
 		self.isServiceAvailable = False
 
 	def run(self):
+		request = None
 		while self.isServiceAvailable:
 			try:
 				response = [dumps({}),  b""]
@@ -54,6 +55,7 @@ class DetailProcessor(object):
 			except (KeyboardInterrupt, SystemExit): return
 			except Exception:
 				print(format_exc())
+				print(request)
 				if environ["PRODUCTION_MODE"]: self.logging.report_exception()
 			finally:
 				try: self.socket.send_multipart([origin, delimeter] + response)
